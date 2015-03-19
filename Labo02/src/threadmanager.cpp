@@ -39,6 +39,8 @@ ThreadManager::ThreadManager(QObject *parent) :
  * chaine vide si non trouvé.
  */
 QString ThreadManager::startHacking(QString charset, QString salt, QString hash, unsigned int nbChars, unsigned int nbThreads) {
+    this->nbThreads = nbThreads;
+
     // Nous avons corrigé les types
     u_int64_t nbToCompute;
 
@@ -77,10 +79,14 @@ QString ThreadManager::startHacking(QString charset, QString salt, QString hash,
                     worker,
                     SIGNAL(progressUpdated(double)),
                     this,
-                    SLOT(incrementProgressBar(double))
+                    SLOT(incrementProgressBarTransmit(double))
                     );
 
         worker->start();
+    }
+
+    for (unsigned int i = 0; i < nbThreads; i++) {
+        workers.at(i)->wait();
     }
 
     /*
@@ -88,4 +94,8 @@ QString ThreadManager::startHacking(QString charset, QString salt, QString hash,
      * été testés, et qu'aucun n'est la préimage de ce hash.
      */
     return QString("");
+}
+
+void ThreadManager::incrementProgressBarTransmit(double percentComputed) {
+    emit incrementPercentComputed(percentComputed / nbThreads);
 }
