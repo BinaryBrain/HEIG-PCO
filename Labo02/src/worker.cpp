@@ -14,7 +14,6 @@ Worker::Worker(uint64_t nbToCompute, QString charset, QString hash, QString salt
     this->currentPasswordString = currentPasswordString;
     this->currentPasswordArray = currentPasswordArray;
     this->nbChars = nbChars;
-    this->keepTrying = true;
 }
 
 Worker::~Worker()
@@ -47,8 +46,7 @@ void Worker::run()
     /*
      * Tant qu'on a pas tout essayé...
      */
-    while (keepTrying && nbComputed < nbToCompute)
-    {
+    while (nbComputed < nbToCompute) {
         /* On vide les données déjà ajoutées au générateur */
         md5.reset();
         /* On préfixe le mot de passe avec le sel */
@@ -105,7 +103,3 @@ void Worker::run()
     }
 }
 
-void Worker::exitThreadSlot()
-{
-    keepTrying = false;
-}

@@ -21,7 +21,6 @@ public:
 
 signals:
     void incrementPercentComputed(double percentComputed);
-    void exitThread();
 
 public slots:
     void incrementProgressBarTransmit(double percentComputed);

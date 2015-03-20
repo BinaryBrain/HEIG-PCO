@@ -116,13 +116,6 @@ QString ThreadManager::startHacking(QString charset, QString salt, QString hash,
             SLOT(passwordFound(const QString))
         );
 
-        connect(
-            this,
-            SIGNAL(exitThread()),
-            worker,
-            SLOT(exitThreadSlot())
-        );
-
         worker->start();
     }
 
@@ -143,9 +136,4 @@ void ThreadManager::incrementProgressBarTransmit(double percentComputed)
 void ThreadManager::passwordFound(const QString &password)
 {
     this->password = password;
-    emit exitThread();
-
-    //for (unsigned int i = 0; i < nbThreads; i++) {
-    // workers.at(i)->terminate();
-    //}
 }
