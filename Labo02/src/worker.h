@@ -5,7 +5,16 @@
 #include <QVector>
 #include <stdint.h>
 
-class Worker: public QThread
+/*
+Cette classe est un thread qui exécute une partie de la boucle qui se trouvait dans startHacking.
+Le constructeur prend en argument toutes les variables nécessaires à l'exécution du code sans
+dépendre de variables externes, ce qui améliore les performances car il n'y a pas besoin de
+gérer d'accès synchronisés à ces variables.
+Chaque Worker effectue nbToCompute / nbThreads itérations.
+La communication avec le Thread Manager est gérée par des signals/slots.
+Pour controler l'arrêt des threads, le ThreadManager n'as qu'a émettre un signal sur exitThreadSlot().
+*/
+class Worker : public QThread
 {
     Q_OBJECT
     void run() Q_DECL_OVERRIDE;

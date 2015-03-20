@@ -22,7 +22,8 @@ Worker::~Worker()
 
 }
 
-void Worker::run() {
+void Worker::run()
+{
     /*
      * Object QCryptographicHash servant à générer des md5
      */
@@ -46,7 +47,8 @@ void Worker::run() {
     /*
      * Tant qu'on a pas tout essayé...
      */
-    while (keepTrying && nbComputed < nbToCompute) {
+    while (keepTrying && nbComputed < nbToCompute)
+    {
         /* On vide les données déjà ajoutées au générateur */
         md5.reset();
         /* On préfixe le mot de passe avec le sel */
@@ -59,14 +61,14 @@ void Worker::run() {
          * Si on a trouvé, on retourne le mot de passe courant (sans le sel)
          */
         if (currentHash == hash)
-            emit passwordFoundSignal(currentPasswordString);
+        { emit passwordFoundSignal(currentPasswordString); }
 
         /*
          * Tous les 1000 hash calculés, on notifie qui veut bien entendre
          * de l'état de notre avancement (pour la barre de progression)
          */
         if (!(nbComputed % 1000))
-            emit progressUpdated((double) 1000 / nbToCompute);
+        { emit progressUpdated((double) 1000 / nbToCompute); }
 
         /*
          * On récupère le mot de pass à tester suivant.
@@ -79,14 +81,17 @@ void Worker::run() {
          */
         unsigned int i = 0;
 
-        while (i < (unsigned int)currentPasswordArray.size()) {
+        while (i < (unsigned int)currentPasswordArray.size())
+        {
             currentPasswordArray[i]++;
 
-            if (currentPasswordArray[i] >= nbValidChars) {
+            if (currentPasswordArray[i] >= nbValidChars)
+            {
                 currentPasswordArray[i] = 0;
                 i++;
-            } else
-                break;
+            }
+            else
+            { break; }
         }
 
         /*
@@ -94,12 +99,13 @@ void Worker::run() {
          * caractères
          */
         for (i=0; i < nbChars; i++)
-            currentPasswordString[i]  = charset.at(currentPasswordArray.at(i));
+        { currentPasswordString[i]  = charset.at(currentPasswordArray.at(i)); }
 
         nbComputed++;
     }
 }
 
-void Worker::exitThreadSlot() {
+void Worker::exitThreadSlot()
+{
     keepTrying = false;
 }
