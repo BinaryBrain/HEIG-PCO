@@ -1,5 +1,7 @@
 #include <QVector>
 #include <stdint.h>
+#include <cmath>
+#include <stdio.h>
 
 #include "worker.h"
 #include "threadmanager.h"
@@ -63,15 +65,12 @@ QString ThreadManager::startHacking(QString charset, QString salt, QString hash,
     nbToCompute = intPow(charset.length(), nbChars) / nbThreads;
 
     // Création des threads
-
-    std::vector<Worker*> workers;
-
     for (unsigned int i = 0; i < nbThreads; i++) {
         /*
          * On initialise le premier mot de passe à tester courant en le remplissant
          * de nbChars fois du premier carcatère de charset
          */
-        currentPasswordString.fill(charset.at((charset.size() * i) / nbThreads), nbChars);
+        currentPasswordString.fill(charset.at(std::ceil((charset.size() * i) / (double) nbThreads)), nbChars);
         currentPasswordArray.fill((charset.size() * i) / nbThreads, nbChars);
 
         Worker* worker = new Worker(nbToCompute, charset, hash, salt, nbChars, currentPasswordString, currentPasswordArray);
@@ -91,6 +90,13 @@ QString ThreadManager::startHacking(QString charset, QString salt, QString hash,
                     SLOT(passwordFound(const QString))
                     );
 
+        connect(
+                    this,
+                    SIGNAL(exitThread()),
+                    worker,
+                    SLOT(exitThreadSlot())
+                    );
+
         worker->start();
     }
 
@@ -107,4 +113,9 @@ void ThreadManager::incrementProgressBarTransmit(double percentComputed) {
 
 void ThreadManager::passwordFound(const QString &password) {
     this->password = password;
+    emit exitThread();
+
+    //for (unsigned int i = 0; i < nbThreads; i++) {
+        // workers.at(i)->terminate();
+    //}
 }

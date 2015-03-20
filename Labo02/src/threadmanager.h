@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QString>
+#include <QVector>
+
+#include "worker.h"
 
 class ThreadManager: public QObject
 {
@@ -10,6 +13,7 @@ class ThreadManager: public QObject
 private:
     unsigned int nbThreads;
     QString password;
+    std::vector<Worker*> workers;
 
 public:
     ThreadManager(QObject *parent);
@@ -17,6 +21,7 @@ public:
 
 signals:
     void incrementPercentComputed(double percentComputed);
+    void exitThread();
 
 public slots:
     void incrementProgressBarTransmit(double percentComputed);

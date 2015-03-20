@@ -22,10 +22,14 @@ private:
     unsigned int nbChars;
     QString currentPasswordString;
     QVector<unsigned int> currentPasswordArray;
+    volatile bool keepTrying;
 
 signals:
     void progressUpdated(double newValue);
     void passwordFoundSignal(const QString &password);
+
+public slots:
+    void exitThreadSlot();
 };
 
 #endif // WORKER_H
