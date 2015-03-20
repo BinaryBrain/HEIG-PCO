@@ -13,12 +13,17 @@
 8 Threads: 4115ms
 16 Threads: 4138ms
 
-Ces mesures étaient tout à fait prévisibles. Le processeur utilié à 4 coeurs hyperthreadés.
+Ces mesures étaient tout à fait prévisibles. Le processeur utilié a 4 coeurs hyperthreadés.
 Il est donc normal que jusqu'à 4 threads les performances soient multipliées par le nombre
 de threads, puisque chaque thread s'exécute sur un coeur physique.
 Il y a encore un légé gain à 8 threads grace à l'hyperthreading, mais largement moins significatif.
 La raison pour laquelle 16 threads sont plus lents que 8 est que l'overhead requis pour gérer les
 threads devient trop important, et au final seulement 8 threads peuvent s'exécuter en vrai parallélisme.
+
+PROTOCOLE DE TEST
+Nous avons simplement lancé le programme plusieures fois avec un nombre de threads différent. 
+Pour vérifier que les threads étaient correctement gérés nous avons utilisé le moniteur de ressources
+pour afficher l'utilisation du CPU et le nombres de threads lancés par l'application.
 */
 
 /*
