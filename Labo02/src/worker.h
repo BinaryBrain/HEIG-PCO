@@ -24,8 +24,8 @@ private:
     QVector<unsigned int> currentPasswordArray;
 
 signals:
-    void resultReady(const QString &result);
     void progressUpdated(double newValue);
+    void passwordFoundSignal(const QString &password);
 };
 
 #endif // WORKER_H

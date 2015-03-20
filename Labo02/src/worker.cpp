@@ -58,7 +58,7 @@ void Worker::run() {
          * Si on a trouvé, on retourne le mot de passe courant (sans le sel)
          */
         if (currentHash == hash)
-            emit currentPasswordString;
+            emit passwordFoundSignal(currentPasswordString);
 
         /*
          * Tous les 1000 hash calculés, on notifie qui veut bien entendre
@@ -97,6 +97,4 @@ void Worker::run() {
 
         nbComputed++;
     }
-
-    emit resultReady(result);
 }

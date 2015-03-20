@@ -41,6 +41,7 @@ ThreadManager::ThreadManager(QObject *parent) :
  */
 QString ThreadManager::startHacking(QString charset, QString salt, QString hash, unsigned int nbChars, unsigned int nbThreads) {
     this->nbThreads = nbThreads;
+    this->password = "";
 
     // Nous avons corrigé les types
     uint64_t nbToCompute;
@@ -83,6 +84,13 @@ QString ThreadManager::startHacking(QString charset, QString salt, QString hash,
                     SLOT(incrementProgressBarTransmit(double))
                     );
 
+        connect(
+                    worker,
+                    SIGNAL(passwordFoundSignal(const QString)),
+                    this,
+                    SLOT(passwordFound(const QString))
+                    );
+
         worker->start();
     }
 
@@ -90,13 +98,13 @@ QString ThreadManager::startHacking(QString charset, QString salt, QString hash,
         workers.at(i)->wait();
     }
 
-    /*
-     * Si on arrive ici, cela signifie que tous les mot de passe possibles ont
-     * été testés, et qu'aucun n'est la préimage de ce hash.
-     */
-    return QString("");
+    return password;
 }
 
 void ThreadManager::incrementProgressBarTransmit(double percentComputed) {
     emit incrementPercentComputed(percentComputed / nbThreads);
+}
+
+void ThreadManager::passwordFound(const QString &password) {
+    this->password = password;
 }

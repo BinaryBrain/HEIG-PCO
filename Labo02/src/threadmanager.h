@@ -9,6 +9,7 @@ class ThreadManager: public QObject
     Q_OBJECT
 private:
     unsigned int nbThreads;
+    QString password;
 
 public:
     ThreadManager(QObject *parent);
@@ -19,6 +20,7 @@ signals:
 
 public slots:
     void incrementProgressBarTransmit(double percentComputed);
+    void passwordFound(const QString &password);
 };
 
 #endif // THREADMANAGER_H
