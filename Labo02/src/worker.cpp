@@ -4,7 +4,7 @@
 #include "worker.h"
 
 
-Worker::Worker(u_int64_t nbToCompute, QString charset, QString hash, QString salt,
+Worker::Worker(uint64_t nbToCompute, QString charset, QString hash, QString salt,
                unsigned int nbChars, QString currentPasswordString, QVector<unsigned int> currentPasswordArray)
 {
     this->nbToCompute = nbToCompute;
@@ -35,7 +35,7 @@ void Worker::run() {
     QString result;
     /* ... here is the expensive or blocking operation ... */
 
-    u_int64_t nbComputed = 0;
+    uint64_t nbComputed = 0;
 
     /*
      * Nombre de caractères différents pouvant composer le mot de passe

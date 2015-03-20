@@ -1,4 +1,5 @@
 #include <QVector>
+#include <stdint.h>
 
 #include "worker.h"
 #include "threadmanager.h"
@@ -42,7 +43,7 @@ QString ThreadManager::startHacking(QString charset, QString salt, QString hash,
     this->nbThreads = nbThreads;
 
     // Nous avons corrigé les types
-    u_int64_t nbToCompute;
+    uint64_t nbToCompute;
 
     /*
      * Mot de passe à tester courant

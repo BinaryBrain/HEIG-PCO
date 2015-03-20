@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include <QVector>
+#include <stdint.h>
 
 class Worker: public QThread
 {
@@ -10,11 +11,11 @@ class Worker: public QThread
     void run() Q_DECL_OVERRIDE;
 
 public:
-    Worker(u_int64_t nbToCompute, QString charset, QString hash, QString salt, unsigned int nbChars, QString currentPasswordString, QVector<unsigned int> currentPasswordArray);
+    Worker(uint64_t nbToCompute, QString charset, QString hash, QString salt, unsigned int nbChars, QString currentPasswordString, QVector<unsigned int> currentPasswordArray);
     ~Worker();
 
 private:
-    u_int64_t nbToCompute;
+    uint64_t nbToCompute;
     QString charset;
     QString hash;
     QString salt;
